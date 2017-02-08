@@ -1,0 +1,218 @@
+<script>
+$(document).ready(function(){
+  //-------------------------------------- TOMAR PARAMETROS DE URL --------------------------------------
+  var getUrlParameter = function getUrlParameter(sParam) {
+      var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+          sURLVariables = sPageURL.split('&'),
+          sParameterName,
+          i;
+
+      for (i = 0; i < sURLVariables.length; i++) {
+          sParameterName = sURLVariables[i].split('=');
+
+          if (sParameterName[0] === sParam) {
+              return sParameterName[1] === undefined ? true : sParameterName[1];
+          }
+      }
+  };
+
+  codigo = getUrlParameter("codigo");
+  //codigo = "2.30397";
+  $("#codigo").val(codigo);
+ 
+});
+
+$(".btn-cod").click(function(){
+	if(pregCreadas == 0){
+		validarCodigo();
+	}
+	else{
+		$("#pag_0").css("display","none");
+		$("#pag_1").css("display","block");	
+		$(window).scrollTop(0);
+	}
+})
+
+$("#codigo").click(function(){
+	$(".codigo-error-tit").css("visibility", "hidden");
+	if($("#codigo").hasClass("codigo-error")){
+		$("#codigo").removeClass("codigo-error");
+	}
+});
+
+// ----------------------------------------------------- A BASE ------------------------------------------------
+function validarCodigo(){
+	$.ajax({		
+		url:   'funciones.php?accion=validarCodigo'
+		,type:  'post'
+		,data:{ 
+			codigo: parseFloat($('#codigo').val()),
+		}
+		,success: function (resp) {
+			if(resp == "ok"){
+				codigo = $('#codigo').val();
+					buscarJsonEncuesta(codigo);
+			}else if(resp == "ko"){
+				$("#codigo").addClass("codigo-error");
+				$(".codigo-error-tit").css("visibility", "visible");
+			}else if(resp == "usado"){
+				$("#codigo").addClass("codigo-error");
+				$(".codigo-error-tit").text("(Código ya usado)");
+				$(".codigo-error-tit").css("visibility", "visible");
+			}else{
+				$("#codigo").addClass("codigo-error");
+				$(".codigo-error-tit").text("(Error, intente mas tarde)");
+				$(".codigo-error-tit").css("visibility", "visible");
+			}
+		}
+	});	
+}
+
+function buscarJsonEncuesta(codigo){
+	$.ajax({		
+		url:   'funciones.php?accion=buscarJsonEncuesta'
+		,type:  'post'
+		,data:{ 
+			codigo: codigo
+		}
+		,success: function (resp) {
+			if(resp){
+				id_encuesta = codigo.split(".");
+				id_encuesta = id_encuesta[0];
+				resp = JSON.parse(resp);	
+				//console.log(JSON.stringify(resp,null,2));
+				crearPreguntas(resp);
+				$("#pag_0").css("display","none");
+				$("#pag_1").css("display","block");
+				$(window).scrollTop(0);				
+			}
+			$("#codigo").addClass("codigo-error");
+			$(".codigo-error-tit").css("visibility", "visible");
+		}
+	});
+}
+
+//-------------------------------------- CREAR EVENTOS --------------------------------------
+function crearEventos(){
+	  //veo si es celular
+	  if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+		  var celular = true;
+	  }else{
+		  var celular = false;
+	  }	
+	//BOTONERA DE ENCUESTA
+	nroUltimo = "";
+	//IR SIGUIENTE
+	$(".btn-sig").click(function(){
+		nroUltimo = parseInt(this.id.substr(5))+1;
+		$("#pag_"+(nroUltimo)).css("display","block");
+		$("#pag_"+(nroUltimo-1)).css("display","none");
+		$(window).scrollTop(0);
+		
+		$("#pag_"+(nroUltimo)+" .preg-contenedor").children().slideUp(0).fadeIn(700);
+	});
+	//tomo enter como btn-sig solo en celular
+/* 	$(document).keypress(function(e) {
+		 var code = e.keyCode || e.which;
+		 if(code == 13 && celular == true) {
+			if($("#pag_"+(nroUltimo)).find(".pregTextArea").length){
+				$("#pag_"+(nroUltimo+1)).css("display","block");
+				$("#pag_"+(nroUltimo)).css("display","none");
+				$(window).scrollTop(0);
+				nroUltimo++;
+			 }
+		 }
+	}); 
+*/
+	//IR ATRAS
+	$(".btn-atras").click(function(){
+		nroUltimo = parseInt(this.id.substr(5)-1); 
+		$("#pag_"+(nroUltimo)).css("display","block");
+		$("#pag_"+(nroUltimo+1)).css("display","none");
+		$(window).scrollTop(0);
+		$("#pag_"+(nroUltimo)+" .preg-contenedor").children().slideUp(0).fadeIn(700);
+	});
+	
+	//BOTON ENVIAR
+	$(".btn-enviar").click(function(){
+		recolectarDatos();
+	});
+}
+
+//-------------------------------------- RECOLECTAR DATOS --------------------------------------
+function recolectarDatos(){
+	var respuestas = [];
+	for (var crec = 0; crec < recolector.length; crec++) {
+		var preg = {};
+			//veo su tipo y guardo
+			var tipo = recolector[crec].tipo;
+			preg.tipo = tipo;
+			//guardo id
+			preg.id = recolector[crec].id;
+			//creo vector respuesta
+			switch(tipo) {
+				//guardo slider
+			    case "sliderEx":
+			    	preg.resp = getPregSliderEx(recolector[crec].nro,recolector[crec].objEst);
+			        break;
+			    //guardo text
+			    case "text":
+			    	preg.resp = getPregText(recolector[crec].nro);
+			        break;
+				//guardo combo
+			    case "combo":
+			    	preg.resp = getPregCombo(recolector[crec].nro);
+			        break;			        
+				//guardo puntos
+			    case "puntos":
+			    	preg.resp = getPregPtos(recolector[crec].nro);
+			    	break;
+			}
+   		respuestas.push(preg);
+	}	
+	guardarRespuestas(respuestas);
+}
+
+function guardarRespuestas(resp){
+	var guardo = false;
+	var guardando = 
+		$.alert({
+			title: 'Guardando Encuesta',
+		    content: function(){
+				 var self = this;
+			     self.setContent('Checking callback flow');		    	
+		        return $.ajax({
+		            url: 'funciones.php?accion=guardarRespuestas',
+		            type: 'post',
+		            data:{ 
+		        		respuestas: JSON.stringify(resp),
+		        		codigo: codigo,
+		        		id_encuesta: id_encuesta
+		        	}
+		        	
+		        }).done(function (resp) {
+		        	self.setContent("La encuesta fue guardada correctamente!");
+		        	if(resp == "ok"){
+						guardo = true;
+					}else{
+						self.setContent('No se pudo guardar, compruebe la conexión, vuelva al navegador y pruebe de reenviar, no cierre la ventana o perdera los datos');
+					}
+		        }).fail(function (resp) {
+		        	self.setContent('No se pudo guardar, compruebe la conexión, vuelva al navegador y pruebe de reenviar, no cierre la ventana o perdera los datos');
+		        });
+		    },
+		    buttons: {
+		        confirm: {
+		        	text:'Aceptar',
+					btnClass: 'btn-primary',
+					action: function(){
+						if(guardo == true){
+							$(".pag_enviar").css("display","none");
+							$("#pagFinal").css("display","block");
+						}
+					}
+		         }
+		    }
+		});
+}
+</script>

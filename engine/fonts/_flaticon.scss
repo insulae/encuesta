@@ -1,0 +1,79 @@
+    /*
+    Flaticon icon font: Flaticon
+    Creation date: 24/10/2016 17:30
+    */
+
+    @font-face {
+  font-family: "Flaticon";
+  src: url("./Flaticon.eot");
+  src: url("./Flaticon.eot?#iefix") format("embedded-opentype"),
+       url("./Flaticon.woff") format("woff"),
+       url("./Flaticon.ttf") format("truetype"),
+       url("./Flaticon.svg#Flaticon") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+    font-family: "Flaticon";
+    src: url("./Flaticon.svg#Flaticon") format("svg");
+  }
+}
+
+    .fi:before{
+        display: inline-block;
+  font-family: "Flaticon";
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  line-height: 1;
+  text-decoration: inherit;
+  text-rendering: optimizeLegibility;
+  text-transform: none;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  font-smoothing: antialiased;
+    }
+
+    .flaticon-atras:before { content: "\f100"; }
+.flaticon-bandera:before { content: "\f101"; }
+.flaticon-bug:before { content: "\f102"; }
+.flaticon-ciclar:before { content: "\f103"; }
+.flaticon-circulo-afirmacion:before { content: "\f104"; }
+.flaticon-circulo-informacion:before { content: "\f105"; }
+.flaticon-circulo-mas:before { content: "\f106"; }
+.flaticon-circulo-menos:before { content: "\f107"; }
+.flaticon-circulo-por:before { content: "\f108"; }
+.flaticon-circulo-pregunta:before { content: "\f109"; }
+.flaticon-corazon:before { content: "\f10a"; }
+.flaticon-escribir:before { content: "\f10b"; }
+.flaticon-estrella:before { content: "\f10c"; }
+.flaticon-llegada:before { content: "\f10d"; }
+.flaticon-medalla:before { content: "\f10e"; }
+.flaticon-persona:before { content: "\f10f"; }
+.flaticon-por:before { content: "\f110"; }
+.flaticon-puntogps:before { content: "\f111"; }
+.flaticon-siguiente:before { content: "\f112"; }
+.flaticon-visto:before { content: "\f113"; }
+    
+    $font-Flaticon-atras: "\f100";
+    $font-Flaticon-bandera: "\f101";
+    $font-Flaticon-bug: "\f102";
+    $font-Flaticon-ciclar: "\f103";
+    $font-Flaticon-circulo-afirmacion: "\f104";
+    $font-Flaticon-circulo-informacion: "\f105";
+    $font-Flaticon-circulo-mas: "\f106";
+    $font-Flaticon-circulo-menos: "\f107";
+    $font-Flaticon-circulo-por: "\f108";
+    $font-Flaticon-circulo-pregunta: "\f109";
+    $font-Flaticon-corazon: "\f10a";
+    $font-Flaticon-escribir: "\f10b";
+    $font-Flaticon-estrella: "\f10c";
+    $font-Flaticon-llegada: "\f10d";
+    $font-Flaticon-medalla: "\f10e";
+    $font-Flaticon-persona: "\f10f";
+    $font-Flaticon-por: "\f110";
+    $font-Flaticon-puntogps: "\f111";
+    $font-Flaticon-siguiente: "\f112";
+    $font-Flaticon-visto: "\f113";

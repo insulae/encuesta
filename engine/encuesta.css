@@ -1,0 +1,76 @@
+@CHARSET "UTF-8";
+/*--------------------------------------------------------------- GENERAL ---------------------------------------------------------------*/
+* {
+    box-sizing: border-box;
+}
+
+body{
+	display: flex;
+	justify-content: center;
+	/*align-items: center; vertical align */  
+	background-color: #ffffff; /*d6e7ec*/
+}
+.contenedor{
+	background:#ffffff;
+	padding-top:5px;
+	display: none;
+	width: 100%;
+	text-align: center;
+}
+
+
+/*--------------------------------------------------------------- PREGUNTAS --------------------------------------------------------------*/
+.preg-contenedor{
+}
+
+.preg-nro{
+	font-weight: bold;
+	font-size: 20px;
+}
+
+.preg{
+	font-size: 20px;
+}
+
+/*--------------------------------------------------------------- BOTONERA ---------------------------------------------------------------*/
+.botonera{
+	display: flex;
+	justify-content:center;
+}
+.btn-sig, .btn-atras{
+font-weight: bold;
+width: 80px;
+margin:20px;
+margin-top:0;
+}
+.faltantes{
+font-weight: bold;
+font-size:20px;
+margin-top:7px;
+}
+
+
+/*--------------------------------------------------------------- FIXES ---------------------------------------------------------------*/
+@media screen and (max-device-width: 340px) and (orientation:portrait){
+	.contenedor{
+		zoom:0.9;
+		
+	}		
+}
+@media screen and (max-device-width: 300px) and (orientation:portrait){
+	.contenedor{
+		zoom:0.8;
+	}		
+}
+@media screen and (min-device-width: 500px) and (orientation:portrait){
+	.contenedor{
+		zoom:1.2;
+		
+	}
+}	
+@media screen and (min-device-width: 500px){
+	.contenedor{
+		zoom:1.2;
+		
+	}		
+}

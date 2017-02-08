@@ -1,0 +1,52 @@
+<div id="_pagFinal">
+<div id="@pag_nro" class="container-fluid contenedor">
+
+	<div class="alert alert-info">
+  		<span class="inicio-titulo">@titulo</span>
+	</div>
+	
+	<div><img class="logo" src="logo.jpg"/></div>
+	<div class="logo-descripcion"><span>@logo_desc</span></div>
+	<br><br>
+	
+	<div class="codigo-contenedor">
+  		<div><input class=cod-final type="text" value="@codigo" readonly/></div>
+	</div>
+	<br>
+</div>
+
+</div>
+
+
+<style>
+.inicio-titulo{
+	font-weight: bold;
+	font-size: 20px;
+}
+.logo{
+ 	width: 50%;
+    height: auto;
+}
+.logo-descripcion span{
+	font-weight: bold;
+	font-size: 20px;
+}
+.codigo-contenedor{
+	display: inline-block;
+}
+.cod-final{
+	margin-bottom: 10px;
+}
+</style>
+
+
+<script>
+function  crearPagFinal(nro,titulo,logoDesc){
+		var html = $("#_pagFinal").html().replace("@pag_nro","pagFinal");
+		html = html.replace("@titulo",titulo);
+		html = html.replace("@logo_desc",logoDesc);
+		html = html.replace("@codigo",codigo);
+
+		$("#encuesta").append(html);
+}
+</script>

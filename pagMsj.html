@@ -1,0 +1,37 @@
+<div id="_pagMsj">
+	<div id="@pag_nro" class="container-fluid contenedor">
+		<!-- PREGUNTA -->
+		<div class="alert alert-danger preg-contenedor">
+		<span class="preg-nro">@pag_tit</span>
+		</div>
+		
+		<div class="alert alert-info preg-contenedor">
+	  		<span class="preg">
+	  			@pag_desc
+	  		</span>
+		</div>
+		
+		<div class="botonera">
+			<button id="@btna_nro" type="button" class="btn btn-warning btn-atras"><span class="glyph-icon flaticon-atras"></span></button>
+			<span class="faltantes">@pgc/@pgt</span>
+			<button id="@btns_nro" type="button" class="btn btn-primary btn-sig"><span class="glyph-icon flaticon-siguiente"></span></button>
+		</div>
+	</div>
+</div>
+
+
+<script>
+function  crearPagMsj(pagTit,pagDesc){
+	
+		var html = $("#_pagMsj").html().replace("@pag_nro","pag_"+pagCon);
+		html = html.replace("@pag_tit",pagTit);
+		html = html.replace("@pag_desc",pagDesc);
+		html = html.replace("@btns_nro","btns_"+pagCon);
+		html = html.replace("@btna_nro","btna_"+pagCon);
+		html = html.replace("@pgc",pagCon);
+		html = html.replace("@pgt",pagTot);
+		
+		pagCon++;
+		$("#encuesta").append(html);
+}
+</script>

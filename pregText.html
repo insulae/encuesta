@@ -1,0 +1,52 @@
+<div id="_pregText">
+	<div id="@pag_nro" class="container-fluid contenedor pregText">
+	
+		<!-- PREGUNTA -->
+		<div class="alert alert-info preg-contenedor">
+	  		<span class="preg">@preg_desc</span>
+		</div>
+		
+		<div class="form-group">
+	  		<textarea id="@pag_nro_com" class="form-control pregTextArea" rows="15" placeholder="COMENTARIO"></textarea>
+		</div>
+	
+		<div class="botonera">
+			<button id="@btna_nro" type="button" class="btn btn-warning btn-atras"><span class="glyph-icon flaticon-atras"></span></button>
+			<span class="faltantes">@pgc/@pgt</span>
+			<button id="@btns_nro" type="button" class="btn btn-primary btn-sig"><span class="glyph-icon flaticon-siguiente"></span></button>
+		</div>
+	</div>
+</div>
+
+
+<script>
+function  crearPregText(id,pregDesc){
+	
+		var html= $("#_pregText").html().replace("@pag_nro","pag_"+pagCon);
+		html = html.replace("@preg_desc",pregDesc);
+		html = html.replace("@pag_nro_com","pag_"+pagCon+"_com");
+		html = html.replace("@btns_nro","btns_"+pagCon);
+		html = html.replace("@btna_nro","btna_"+pagCon);
+		html = html.replace("@pgc",pagCon);
+		html = html.replace("@pgt",pagTot);
+
+		//armo recolector
+		recolector.push({tipo:"text",nro:pagCon,id:id});
+
+		//hago append de la pagina 
+		$("#encuesta").append(html);
+		
+		//incremento pagina
+		pagCon++;
+		pregCon++;
+		
+}
+function getPregText(nro){
+	respT = [];
+ 	respObj ={};
+	respObj.objEst = 1;
+	respObj.value = $("#pag_"+nro+"_com").val();
+	respT.push(respObj);
+	return respT;
+}
+</script>

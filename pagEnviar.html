@@ -1,0 +1,62 @@
+<div id="_pagEnviar">
+<!---------------------------------------------- HTML ----------------------------------------------->
+<div id="@pag_nro" class="container-fluid contenedor pag_enviar">
+
+		<div class="alert alert-danger preg-contenedor">
+		<span class="preg-nro">@pag_tit</span>
+		</div>
+	
+	<div class="alert alert-info preg-contenedor">
+  		<span class="preg">
+  			@pag_desc
+  		</span>
+	</div>
+		
+	<div class="botonera">
+		<button id="@btna_nro" type="button" class="btn btn-warning btn-atras"><span class="glyph-icon flaticon-atras"></span></button>
+		<button id="@btns_nro" type="button" class="btn btn-danger btn-enviar"><span class="glyph-icon flaticon-bandera"></span><label>Enviar Encuesta</label></button>
+	</div>
+</div>
+
+</div>
+
+<!---------------------------------------------- JAVASCRIPT ----------------------------------------------->
+<script>
+function  crearPagEnviar(nro,pagTit,pagDesc){
+	
+		var html = $("#_pagEnviar").html().replace("@pag_nro","pag_"+nro);
+		html = html.replace("@pag_tit",pagTit);
+		html = html.replace("@pag_desc",pagDesc);
+		html = html.replace("@btna_nro","btna_"+nro);
+		html = html.replace("@btns_nro","btns_"+nro);
+
+		pagCon++;
+		$("#encuesta").append(html);
+}
+</script>
+
+<!---------------------------------------------- ESTILOS ----------------------------------------------->
+<style>
+.enviar-titulo{
+	font-weight: bold;
+	font-size: 20px;
+}
+.btn-enviar{
+	width: 200px;
+	height: 42px;	
+}
+.btn-enviar span{
+	position: relative;
+	overflow: hidden;
+	left:-10px;
+	top:-2px;
+}
+.btn-enviar label{
+	position: relative;
+	overflow: hidden;
+	font-weight: bold;
+	font-size: 15px;
+	left:5px;
+	top:4px;
+}
+</style>

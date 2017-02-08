@@ -1,0 +1,175 @@
+<!---------------------------------------------- HTML ----------------------------------------------->
+<div id="_pregSliderEx">
+	<div id="@pag_nro" class="container-fluid contenedor pregSliderEx">
+	
+		<div class="alert alert-success preg-contenedor">
+			<span class="glyph-icon flaticon-circulo-pregunta"></span>
+			<span class="preg-nro">@preg_titulo:</span>
+	  		<span class="preg">@preg_desc</span>
+		</div>
+	
+		<div id="@objEsts" class="objEsts"></div>
+		
+		<div class="botonera">
+			<button id="@btna_nro" type="button" class="btn btn-warning btn-atras"><span class="glyph-icon flaticon-atras"></span></button>
+			<span class="faltantes">@pgc/@pgt</span>
+			<button id="@btns_nro" type="button" class="btn btn-primary btn-sig"><span class="glyph-icon flaticon-siguiente"></span></button>
+		</div>
+	</div> 
+</div>
+
+<div id="_objEst">
+	<div id="objEst" class="objEst">
+		<div><span class="glyph-icon flaticon-persona icono"></span><span class="objest-descripcion">@objDesc</span></div>
+		<div class="regla">
+			<div class="radios">
+				<input type="radio" name="@preg_nro_op1" value="0" style="margin-right:55px" data-toggle="tooltip" title="No Responde" checked>
+				<input type="radio" name="@preg_nro_op2" value="1" data-toggle="tooltip" title="Malo">
+				<input type="radio" name="@preg_nro_op3" value="2" data-toggle="tooltip" title="Regular">
+				<input type="radio" name="@preg_nro_op4" value="3" data-toggle="tooltip" title="Bueno">
+				<input type="radio" name="@preg_nro_op5" value="4" data-toggle="tooltip" title="Muy Bueno">
+				<input type="radio" name="@preg_nro_op6" value="5" data-toggle="tooltip" title="Excelente">
+			</div>
+			<div class="radios-labels">
+				<span class="rad0">No Resp.</span>
+				<span class="rad1">Malo</span>
+				<span class="rad2">Bueno</span>
+				<span class="rad3">Excelente</span>
+			</div>
+		</div>
+		<hr>	
+	</div>
+</div>
+
+
+<!---------------------------------------------- JAVASCRIPT ----------------------------------------------->
+<script>
+function  crearPregSliderEx(id,pregDesc,objEst){
+	var html = $("#_pregSliderEx").html().replace("@pag_nro","pag_"+pagCon);
+	html = html.replace("@btns_nro","btns_"+pagCon);
+	html = html.replace("@btna_nro","btna_"+pagCon);
+	html = html.replace("@preg_titulo","PREGUNTA "+pregCon);
+	html = html.replace("@preg_desc",pregDesc);
+	html = html.replace("@objEsts","objEsts_"+pagCon);
+	html = html.replace("@pgc",pagCon);
+	html = html.replace("@pgt",pagTot);
+
+	//hago append de la pagina 
+	$("#encuesta").append(html);
+	
+	
+	//incorporo los objetos de estudio
+	for (var objCont = 0; objCont < objEst.length; objCont++) {
+		var html = $("#_objEst").html().replace("@objDesc",objEst[objCont].descrip);
+		html = html.replace("@preg_nro_op1","preg"+pagCon+"_obj"+objEst[objCont].id_obj_estudio);
+		html = html.replace("@preg_nro_op2","preg"+pagCon+"_obj"+objEst[objCont].id_obj_estudio);
+		html = html.replace("@preg_nro_op3","preg"+pagCon+"_obj"+objEst[objCont].id_obj_estudio);
+		html = html.replace("@preg_nro_op4","preg"+pagCon+"_obj"+objEst[objCont].id_obj_estudio);
+		html = html.replace("@preg_nro_op5","preg"+pagCon+"_obj"+objEst[objCont].id_obj_estudio);
+		html = html.replace("@preg_nro_op6","preg"+pagCon+"_obj"+objEst[objCont].id_obj_estudio);
+
+		$("#objEsts_"+pagCon).append(html);
+	}
+	
+	//armo recolector
+	recolector.push({tipo:"sliderEx",nro:pagCon,id:id,objEst:objEst});
+
+	//incremento pagina
+	pagCon++;
+	pregCon++;
+
+}
+
+function getPregSliderEx(nro,objEst){
+	
+ 	respS = [];
+	for (var cant = 0; cant < objEst.length; cant++) {
+		respObj ={};
+		respObj.objEst = objEst[cant].id_obj_estudio;
+		respObj.value = $("input[name=preg"+nro+"_obj"+respObj.objEst+"]:checked").val();
+		respS.push(respObj);
+	}		
+	
+	
+ 	return respS;
+}
+</script>
+
+
+<!---------------------------------------------- ESTILOS ----------------------------------------------->
+<style>
+
+
+.objEst span.icono:before {
+	position: relative;
+	overflow: hidden;
+	left:-20px;
+	top:5px;
+}
+
+.objEsts{
+	/* background: yellow; */
+}
+.objEst{
+	text-align: left;
+}
+.objest-descripcion{
+	position: relative;
+	font-weight: bold;
+	font-size:18px;
+	left:-10px;
+	top:5px;
+}
+
+.regla{
+	margin: 0 auto;
+	width: 100%;
+}
+.regla input[type='radio'] {
+	position:relative;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none; 
+	width: 25px;
+	height: 25px;
+	-moz-border-radius: 50%;
+	-webkit-border-radius: 50%;
+	border-radius: 50%;
+	background: #b1cfd7;
+	margin-right:15px;
+	border: 2px solid #000000;
+}
+.regla input[type='radio']:checked{
+	position:relative;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none; 
+	width: 25px;
+	height:25px;
+	-moz-border-radius: 50%;
+	-webkit-border-radius: 50%;
+	border-radius: 50%;
+	background: #73d216;
+}
+.radios{
+	background: #e6ecf1;
+	width: 100%;
+	max-width: 350px;
+}
+
+.regla .radios-labels{
+	position:relative;
+}
+.rad0{
+	
+}
+.rad1{
+	margin-left:20px;
+}
+.rad2{
+	margin-left:50px;
+}
+.rad3{
+	margin-left:30px;
+}
+</style>
